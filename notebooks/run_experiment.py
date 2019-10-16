@@ -21,6 +21,9 @@ def run_experiment(expt_name, subj_num='', sess_num='', muse_lsl_dir='muse-lsl')
     elif 'Auditory_P300' in expt_name:
         from stimulus_presentation import auditory_p300 as expt_function
 
+    elif 'nb2020' in expt_name:
+        from stimulus_presentation import nb2020 as expt_function
+
     expt_args = []
     record_args = []
 
@@ -47,7 +50,7 @@ if __name__ == '__main__':
     """
     Usage:
 
-    python run_eeg_experiment.py EXPT_NAME SUBJECT_NUM SESS_NUM 
+    python run_eeg_experiment.py EXPT_NAME SUBJECT_NUM SESS_NUM
 
 
     Experiment names:
@@ -63,7 +66,7 @@ if __name__ == '__main__':
 
     Examples:
 
-    python run_experiment.py N170 
+    python run_experiment.py N170
 
 
     python run_experiment.py mlsl_SSVEP_test

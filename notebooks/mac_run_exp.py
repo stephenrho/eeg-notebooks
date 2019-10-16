@@ -11,7 +11,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 parser = OptionParser()
- 
+
 parser.add_option("-d", "--duration",
                   dest="duration", type='int', default=400,
                   help="duration of the recording in seconds")
@@ -41,6 +41,8 @@ elif experiment == 'n170':
 	recording_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "N170", "subject" + str(subject), "session" + str(session), ("recording_%s.csv" % strftime("%Y-%m-%d-%H.%M.%S", gmtime())))
 elif experiment == 'ssvep':
 	recording_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "SSVEP", "subject" + str(subject), "session" + str(session), ("recording_%s.csv" % strftime("%Y-%m-%d-%H.%M.%S", gmtime())))
+elif experiment == 'nb2020':
+	recording_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "nb2020", "subject" + str(subject), "session" + str(session), ("recording_%s.csv" % strftime("%Y-%m-%d-%H.%M.%S", gmtime())))
 else:
 	print('Experiment name is not correct. Choose from n170, visual_p300_stripes, or ssvep.')
 
@@ -60,9 +62,6 @@ if __name__ == '__main__':
 
     pool.apply_async(eval(expprez), args=(duration,))
     pool.apply_async(record, args=(duration,recording_path))
-    
+
     pool.close()
     pool.join()
-
-
-
