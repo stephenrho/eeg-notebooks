@@ -28,7 +28,7 @@ def present(duration=120, subj_num=1, sess_num=1):
 
     # Set up trial parameters
     n_trials = 2010
-    iti = 0.8
+    iti = 1
     soa = 0.5
     jitter = 0.2
     record_duration = np.float32(duration)
@@ -51,15 +51,17 @@ def present(duration=120, subj_num=1, sess_num=1):
     mywin = visual.Window([1600, 900], monitor='testMonitor', units='deg', winType='pygame',
                           fullscr=True)
     text = visual.TextStim(mywin, text="Press %s for faces or %s for buildings. Press either to start..." %(resp_keys[0], resp_keys[1]))
-
+    
+    image_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "notebooks", "stimulus_presentation", "stim", "nb2020")
+    print(image_path)
     f1 = list(map(load_image, glob(
-        'stim/nb2020/face1/*.jpg')))
+        image_path + '/face1/*.jpg')))
     f2 = list(map(load_image, glob(
-        'stim/nb2020/face2/*.jpg')))
+        image_path + '/face2/*.jpg')))
     b1 = list(map(load_image, glob(
-        'stim/nb2020/building1/*.jpg')))
+        image_path + '/building1/*.jpg')))
     b2 = list(map(load_image, glob(
-        'stim/nb2020/building2/*.jpg')))
+        image_path + '/building2/*.jpg')))
 
     faces = [f1, f2]
     buildings = [b1, b2]
@@ -121,9 +123,9 @@ def present(duration=120, subj_num=1, sess_num=1):
     out["rts"] = rts
     out["resps"] = resps
     #print(out)
-    file_name = "nb2020-rt" + "_subject" + str(subj_num) + "_session" + str(
+    file_name = "nb2020_rt" + "_subject" + str(subj_num) + "_session" + str(
         sess_num) + "_" + strftime("%Y-%m-%d-%H.%M.%S", gmtime()) + ".csv"
-    file_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "nb2020", "subject" + str(subj_num), "session" + str(sess_num)) + "/"
+    file_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "nb2020_rt", "subject" + str(subj_num), "session" + str(sess_num)) + "/"
 
     if not os.path.exists(file_path):
         os.makedirs(file_path)
@@ -143,10 +145,14 @@ def main():
                       dest="subject", type='int', default=1,
                       help="subject number")
 
+    parser.add_option("-n", "--session",
+                      dest="session", type='int', default=1,
+                      help="session number")
+
     # one more for version? look for (1) babies, (2) castles, (3) both ?
 
     (options, args) = parser.parse_args()
-    present(options.duration)
+    present(options.duration, options.subject, options.session)
 
 
 if __name__ == '__main__':
