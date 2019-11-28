@@ -36,7 +36,7 @@ def present(duration=120, subj_num=1, sess_num=1):
 
     # Setup trial list
     image_type = np.random.binomial(1, 0.5, n_trials)
-    oddball = np.random.binomial(1, 0.15, n_trials)
+    oddball = np.random.binomial(1, 0.3, n_trials)
     markers = [oddball[i] if image_type[i]==1 else oddball[i]+2 for i in range(n_trials)]
 
     trials = DataFrame(dict(image_type=image_type,
