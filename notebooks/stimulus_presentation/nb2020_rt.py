@@ -15,10 +15,21 @@ import os
 import numpy as np
 from pandas import DataFrame
 from psychopy import visual, core, event
-from pylsl import StreamInfo, StreamOutlet
+#from pylsl import StreamInfo, StreamOutlet
 
+'''
+to run from the psychopy app (instead of the jupyter notebook)
+use the settings below
+'''
 
-def present(duration=120, subj_num=1, sess_num=1):
+SUBJECT = 1
+VERSION = 1 # 1,2, or 3
+DURATION = 120
+
+def present(duration=120, subj_num=1, version_num=1):
+    
+    if version_num not in [1,2,3]:
+        raise(Warning("Version number should be 1, 2, or 3"))
 
     # Create markers stream outlet
     #info = StreamInfo('Markers', 'Markers', 1, 0, 'int32', 'myuidw43536')
@@ -36,7 +47,7 @@ def present(duration=120, subj_num=1, sess_num=1):
 
     # Setup trial list
     image_type = np.random.binomial(1, 0.5, n_trials)
-    oddball = np.random.binomial(1, 0.3, n_trials)
+    oddball = np.random.binomial(1, 0.15, n_trials)
     markers = [oddball[i] if image_type[i]==1 else oddball[i]+2 for i in range(n_trials)]
 
     trials = DataFrame(dict(image_type=image_type,
@@ -48,10 +59,10 @@ def present(duration=120, subj_num=1, sess_num=1):
     def load_image(filename):
         return visual.ImageStim(win=mywin, image=filename)
 
-    mywin = visual.Window([1600, 900], monitor='testMonitor', units='deg', winType='pygame',
+    mywin = visual.Window([1600, 900], monitor='testMonitor', units='deg', #winType='pygame',
                           fullscr=True)
     text = visual.TextStim(mywin, text="Press %s for faces or %s for buildings. Press either to start..." %(resp_keys[0], resp_keys[1]))
-    
+
     image_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "notebooks", "stimulus_presentation", "stim", "nb2020")
     print(image_path)
     f1 = list(map(load_image, glob(
@@ -123,9 +134,9 @@ def present(duration=120, subj_num=1, sess_num=1):
     out["rts"] = rts
     out["resps"] = resps
     #print(out)
-    file_name = "nb2020_rt" + "_subject" + str(subj_num) + "_session" + str(
-        sess_num) + "_" + strftime("%Y-%m-%d-%H.%M.%S", gmtime()) + ".csv"
-    file_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "nb2020_rt", "subject" + str(subj_num), "session" + str(sess_num)) + "/"
+    file_name = "nb2020_rt" + "_subject" + str(subj_num) + "_version" + str(
+        version_num) + "_" + strftime("%Y-%m-%d-%H.%M.%S", gmtime()) + ".csv"
+    file_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "data", "visual", "nb2020_rt", "subject" + str(subj_num), "version" + str(version_num)) + "/"
 
     if not os.path.exists(file_path):
         os.makedirs(file_path)
@@ -135,6 +146,7 @@ def present(duration=120, subj_num=1, sess_num=1):
 
 
 def main():
+    '''
     parser = OptionParser()
 
     parser.add_option("-d", "--duration",
@@ -145,15 +157,14 @@ def main():
                       dest="subject", type='int', default=1,
                       help="subject number")
 
-    parser.add_option("-n", "--session",
-                      dest="session", type='int', default=1,
-                      help="session number")
-
-    # one more for version? look for (1) babies, (2) castles, (3) both ?
+    parser.add_option("-v", "--version",
+                      dest="version", type='int', default=1,
+                      help="task version (1,2,or 3)")
 
     (options, args) = parser.parse_args()
-    present(options.duration, options.subject, options.session)
-
+    present(options.duration, options.subject, options.version)
+    '''
+    present(DURATION, SUBJECT, VERSION)
 
 if __name__ == '__main__':
     main()
