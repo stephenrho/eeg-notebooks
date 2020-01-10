@@ -27,7 +27,7 @@ VERSION = 1 # 1,2, or 3
 DURATION = 120
 
 def present(duration=120, subj_num=1, version_num=1):
-    
+
     if version_num not in [1,2,3]:
         raise(Warning("Version number should be 1, 2, or 3"))
 
@@ -61,7 +61,11 @@ def present(duration=120, subj_num=1, version_num=1):
 
     mywin = visual.Window([1600, 900], monitor='testMonitor', units='deg', #winType='pygame',
                           fullscr=True)
-    text = visual.TextStim(mywin, text="Press %s for faces or %s for buildings. Press either to start..." %(resp_keys[0], resp_keys[1]))
+
+    # 1 = count babies, 2 = count castles, 3 = count babies and castles
+    instr_text = "Press %s for faces or %s for buildings.\n\nIn addition, count how many pictures of %s appear.\n\nPress any key to start..." % (resp_keys[0], resp_keys[1], ["babies", "castles", "babies and castles"][version_num-1])
+
+    text = visual.TextStim(mywin, text=instr_text, wrapWidth=30)
 
     image_path = os.path.join(os.path.expanduser("~"), "eeg-notebooks", "notebooks", "stimulus_presentation", "stim", "nb2020")
     print(image_path)

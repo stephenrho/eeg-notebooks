@@ -17,14 +17,13 @@ from psychopy import visual, core, event
 from pylsl import StreamInfo, StreamOutlet
 
 
-def present(duration=120):
+def present(duration=120, version=1):
 
     # Create markers stream outlet
     info = StreamInfo('Markers', 'Markers', 1, 0, 'int32', 'myuidw43536')
     outlet = StreamOutlet(info)
 
     markernames = [1, 2, 3, 4]
-    start = time()
 
     # Set up trial parameters
     n_trials = 2010
@@ -50,6 +49,11 @@ def present(duration=120):
     mywin = visual.Window([1600, 900], monitor='testMonitor', units='deg', winType='pygame',
                           fullscr=True)
 
+    # 1 = count babies, 2 = count castles, 3 = count babies and castles
+    instr_text = "Please count how many pictures of %s appear.\n\nPress any key to start..." % (["babies", "castles", "babies and castles"][version-1])
+
+    text = visual.TextStim(mywin, text=instr_text, wrapWidth=30)
+
     f1 = list(map(load_image, glob(
         'stimulus_presentation/stim/nb2020/face1/*.jpg')))
     f2 = list(map(load_image, glob(
@@ -61,6 +65,13 @@ def present(duration=120):
 
     faces = [f1, f2]
     buildings = [b1, b2]
+
+    ## instructions
+    text.draw()
+    mywin.flip()
+    event.waitKeys()
+
+    start = time()
 
     for ii, trial in trials.iterrows():
         # Intertrial interval
@@ -95,6 +106,10 @@ def main():
     parser.add_option("-d", "--duration",
                       dest="duration", type='int', default=120,
                       help="duration of the recording in seconds.")
+
+    parser.add_option("-v", "--version",
+                      dest="version", type='int', default=1,
+                      help="version of the experiment")
 
     (options, args) = parser.parse_args()
     present(options.duration)
