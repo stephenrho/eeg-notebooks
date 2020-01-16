@@ -50,7 +50,7 @@ def present(duration=120, version=1):
                           fullscr=True)
 
     # 1 = count babies, 2 = count castles, 3 = count babies and castles
-    instr_text = "Please count how many pictures of %s appear.\n\nPress any key to start..." % (["babies", "castles", "babies and castles"][version-1])
+    instr_text = "Please count how many pictures of %s appear. Task will start soon..." % (["babies", "castles", "babies and castles"][version-1])
 
     text = visual.TextStim(mywin, text=instr_text, wrapWidth=30)
 
@@ -69,7 +69,8 @@ def present(duration=120, version=1):
     ## instructions
     text.draw()
     mywin.flip()
-    event.waitKeys()
+    #event.waitKeys()
+    core.wait(4)
 
     start = time()
 

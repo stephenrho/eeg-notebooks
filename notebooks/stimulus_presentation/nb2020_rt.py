@@ -63,7 +63,7 @@ def present(duration=120, subj_num=1, version_num=1):
                           fullscr=True)
 
     # 1 = count babies, 2 = count castles, 3 = count babies and castles
-    instr_text = "Press %s for faces or %s for buildings.\n\nIn addition, count how many pictures of %s appear.\n\nPress any key to start..." % (resp_keys[0], resp_keys[1], ["babies", "castles", "babies and castles"][version_num-1])
+    instr_text = "Press %s for faces or %s for buildings. In addition, count how many pictures of %s appear. Press any key to start..." % (resp_keys[0], resp_keys[1], ["babies", "castles", "babies and castles"][version_num-1])
 
     text = visual.TextStim(mywin, text=instr_text, wrapWidth=30)
 
