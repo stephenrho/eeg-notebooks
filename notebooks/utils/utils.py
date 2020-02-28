@@ -150,7 +150,7 @@ def plot_conditions(epochs, conditions=OrderedDict(), ci=97.5, n_boot=1000,
     y = pd.Series(epochs.events[:, -1])
 
     fig, axes = plt.subplots(2, 2, figsize=[12, 6],
-                             sharex=True, sharey=True)
+                             sharex=False, sharey=False)
     axes = [axes[1, 0], axes[0, 0], axes[0, 1], axes[1, 1]]
 
     for ch in range(4):
