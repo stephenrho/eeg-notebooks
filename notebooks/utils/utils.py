@@ -112,7 +112,7 @@ def load_data(data_dir, subject_nb=1, session_nb=1, sfreq=256.,
 
 def plot_conditions(epochs, conditions=OrderedDict(), ci=97.5, n_boot=1000,
                     title='', palette=None, ylim=(-6, 6),
-                    diff_waveform=(1, 2)):
+                    diff_waveform=None):
     """Plot ERP conditions.
 
     Args:
@@ -152,7 +152,7 @@ def plot_conditions(epochs, conditions=OrderedDict(), ci=97.5, n_boot=1000,
     fig, axes = plt.subplots(2, 2, figsize=[12, 6],
                              sharex=False, sharey=False)
     axes = [axes[1, 0], axes[0, 0], axes[0, 1], axes[1, 1]]
-
+   
     for ch in range(4):
         for cond, color in zip(conditions.values(), palette):
             sns.tsplot(X[y.isin(cond), ch], time=times, color=color,
@@ -167,6 +167,7 @@ def plot_conditions(epochs, conditions=OrderedDict(), ci=97.5, n_boot=1000,
         axes[ch].set_ylim(ylim)
         axes[ch].axvline(x=0, ymin=ylim[0], ymax=ylim[1], color='k',
                          lw=1, label='_nolegend_')
+        axes[ch].axhline(y=0, label='_nolegend_')
 
     axes[0].set_xlabel('Time (s)')
     axes[0].set_ylabel('Amplitude (uV)')
@@ -181,7 +182,7 @@ def plot_conditions(epochs, conditions=OrderedDict(), ci=97.5, n_boot=1000,
     axes[-1].legend(legend)
     sns.despine()
     plt.tight_layout()
-
+    
     if title:
         fig.suptitle(title, fontsize=20)
 

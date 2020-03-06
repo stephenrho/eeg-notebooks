@@ -74,6 +74,7 @@ def present(duration=120, version=1):
 
     start = time()
 
+    count = 0 # to report the relevant count at the end
     for ii, trial in trials.iterrows():
         # Intertrial interval
         core.wait(iti + np.random.rand() * jitter)
