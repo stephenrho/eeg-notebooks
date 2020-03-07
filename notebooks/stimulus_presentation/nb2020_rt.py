@@ -89,6 +89,7 @@ def present(duration=120, subj_num=1, version_num=1):
 
     rts = []
     resps = []
+    count_b = 0; count_c = 0 # to report counts at the end
     for ii, trial in trials.iterrows():
         # Intertrial interval
         # core.wait(iti + np.random.rand() * jitter)
@@ -96,6 +97,9 @@ def present(duration=120, subj_num=1, version_num=1):
         # Select and display image
         label = trials['image_type'].iloc[ii]
         odd = trials['oddball'].iloc[ii]
+
+        count_b += odd*(label==1)
+        count_c += odd*(label!=1)
 
         image = choice(faces[odd] if label == 1 else buildings[odd])
         image.draw()
@@ -145,6 +149,8 @@ def present(duration=120, subj_num=1, version_num=1):
     if not os.path.exists(file_path):
         os.makedirs(file_path)
     out.to_csv(file_path + file_name)
+
+    print("There were {} babies and {} castles ({} total)".format(count_b, count_c, count_b+count_c))
     # Cleanup
     mywin.close()
 
